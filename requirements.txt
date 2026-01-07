@@ -1,5 +1,4 @@
 Flask
-Werkzeug
 Pillow
 
 # Add your ML dependencies here when integrating the model
