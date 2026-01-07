@@ -4,7 +4,7 @@ LCD display helper — show 'Benign' or 'Malignant' on a character LCD.
 Tries to use `RPLCD.i2c.CharLCD` (common on Raspberry Pi with an I2C PCF8574 backpack).
 If the library or hardware isn't available it falls back to printing the result.
 
-Usage:
+Usage
 	from display import show_result_on_lcd
 	show_result_on_lcd('benign')
 """
