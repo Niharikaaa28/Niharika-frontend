@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import time
+from display import show_web_mode
 
 # Import your existing pipeline
 from model import predict_from_file
@@ -73,18 +74,20 @@ def health():
     Health check endpoint
     """
     return jsonify({
-        "status": "ok",
-        "device": "raspberry-pi",
-        "model": "tflite"
-    })
+    "status": "success",
+    "message": "Image analyzed successfully",
+    "analysis": {
+        "diagnosis": label,
+        "confidence": confidence_pct
+    }
+})
 
 
 # ---------- START SERVER ----------
 
 if __name__ == "__main__":
     # Optional OLED message on web-app start
-    show_centered("WEB MODE")
-    time.sleep(1)
+    show_web_mode(duration=4)
     show_centered("READY")
 
     app.run(

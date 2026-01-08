@@ -66,3 +66,30 @@ def show_status(main_text, status_text):
         x = (device.width - w) // 2
         y = (device.height - h) // 2 + 8
         draw.text((x, y), main_text, font=font, fill=255)
+        
+def show_web_mode(duration=3):
+    """
+    Inverted WEB MODE screen
+    """
+    device.clear()
+    device.contrast(255)
+
+    with canvas(device) as draw:
+        # Full white background (inversion)
+        draw.rectangle((0, 0, device.width, device.height), fill=255)
+
+        # Black text
+        title = "WEB"
+        subtitle = "MODE"
+
+        w1, h1 = draw.textsize(title, font=font_big)
+        w2, h2 = draw.textsize(subtitle, font=font_medium)
+
+        x1 = (device.width - w1) // 2
+        x2 = (device.width - w2) // 2
+
+        draw.text((x1, 10), title, font=font_big, fill=0)
+        draw.text((x2, 38), subtitle, font=font_medium, fill=0)
+
+    time.sleep(duration)
+    device.clear()
