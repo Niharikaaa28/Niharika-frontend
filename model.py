@@ -28,3 +28,11 @@ def predict(image):
     confidence = score if label == "MALIGNANT" else (1 - score)
 
     return label, confidence
+
+def predict_from_file(image_path):
+
+    image = cv2.imread(image_path)
+    if image is None:
+        raise RuntimeError(f"Could not read image: {image_path}")
+
+    return predict(image)
