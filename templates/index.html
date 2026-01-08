@@ -56,19 +56,6 @@
                     <p>Take or upload a photo</p>
                 </div>
 
-                <div class="card" id="historyCard">
-                    <div class="card-icon">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="8" y="8" width="24" height="24" rx="2" stroke="#E77656" stroke-width="2.5"/>
-                            <line x1="13" y1="16" x2="27" y2="16" stroke="#E77656" stroke-width="2.5" stroke-linecap="round"/>
-                            <line x1="13" y1="20" x2="23" y2="20" stroke="#E77656" stroke-width="2.5" stroke-linecap="round"/>
-                            <line x1="13" y1="24" x2="25" y2="24" stroke="#E77656" stroke-width="2.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>View History</h3>
-                    <p>Check past scans</p>
-                </div>
-
                 <div class="card" id="guideCard">
                     <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,6 +118,35 @@
         <footer class="footer">
             <p>For medical advice, please consult a healthcare professional</p>
         </footer>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <h2>About</h2>
+            <div class="menu-section">
+                <h3>SmartDerm AI</h3>
+                <p>An intelligent skin analysis assistant powered by deep learning.</p>
+            </div>
+            <div class="menu-section">
+                <h3>Features</h3>
+                <ul>
+                    <li>Real-time skin analysis</li>
+                    <li>High accuracy detection</li>
+                    <li>Instant results on OLED display</li>
+                    <li>Easy to use interface</li>
+                </ul>
+            </div>
+            <div class="menu-section easter-egg">
+                <h3>🎨 Created by</h3>
+                <p class="creator-name">Tanish</p>
+                <p class="creator-tagline">"Innovation meets skin health"</p>
+                <div class="sparkle">✨</div>
+            </div>
+            <div class="menu-section">
+                <p class="disclaimer">This tool is for educational purposes only. Always consult a healthcare professional for medical advice.</p>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}?v=2"></script>

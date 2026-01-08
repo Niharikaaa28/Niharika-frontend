@@ -14,6 +14,7 @@ const loading = document.getElementById('loading');
 const resultsSection = document.getElementById('resultsSection');
 const resultContent = document.getElementById('resultContent');
 const newScanBtn = document.getElementById('newScanBtn');
+const menuOverlay = document.getElementById('menuOverlay');
 
 let selectedFile = null;
 
@@ -25,7 +26,18 @@ function log(...args) {
 // Menu Button Handler
 menuBtn.addEventListener('click', () => {
     menuBtn.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+    document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : 'auto';
     log('Menu toggled');
+});
+
+// Close menu when clicking overlay
+menuOverlay.addEventListener('click', (e) => {
+    if (e.target === menuOverlay) {
+        menuBtn.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
 });
 
 // Event Listeners
@@ -35,10 +47,6 @@ uploadCard.addEventListener('click', () => {
         uploadArea.scrollIntoView({ behavior: 'smooth' });
     }, 100);
     log('Upload card clicked');
-});
-
-historyCard.addEventListener('click', () => {
-    alert('History feature coming soon!');
 });
 
 guideCard.addEventListener('click', () => {
