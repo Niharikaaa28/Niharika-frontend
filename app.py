@@ -57,8 +57,11 @@ def analyze():
 
         return jsonify({
             "status": "success",
-            "diagnosis": label,
-            "confidence": confidence_pct
+            "message": "Image analyzed successfully",
+            "analysis": {
+                "diagnosis": label,
+                "confidence": confidence_pct
+            }
         })
 
     except Exception as e:
@@ -74,13 +77,9 @@ def health():
     Health check endpoint
     """
     return jsonify({
-    "status": "success",
-    "message": "Image analyzed successfully",
-    "analysis": {
-        "diagnosis": label,
-        "confidence": confidence_pct
-    }
-})
+        "status": "healthy",
+        "message": "Server is running"
+    })
 
 
 # ---------- START SERVER ----------
