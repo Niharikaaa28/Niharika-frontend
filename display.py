@@ -13,16 +13,26 @@ font_small = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14
 )
 
-def show_text(top_text, bottom_text=""):
+def show_centered(text):
+    """Single line, perfectly centered"""
     device.clear()
     with canvas(device) as draw:
-        # Top (big)
-        w, h = draw.textsize(top_text, font=font_big)
+        w, h = draw.textsize(text, font=font_big)
         x = (device.width - w) // 2
-        draw.text((x, 0), top_text, font=font_big, fill=255)
+        y = (device.height - h) // 2
+        draw.text((x, y), text, font=font_big, fill=255)
 
-        # Bottom (small)
-        if bottom_text:
-            w2, h2 = draw.textsize(bottom_text, font=font_small)
-            x2 = (device.width - w2) // 2
-            draw.text((x2, 40), bottom_text, font=font_small, fill=255)
+def show_result(label, confidence_pct):
+    """Two-line result layout"""
+    device.clear()
+    with canvas(device) as draw:
+        # Top line (label)
+        w1, h1 = draw.textsize(label, font=font_big)
+        x1 = (device.width - w1) // 2
+        draw.text((x1, 8), label, font=font_big, fill=255)
+
+        # Bottom line (confidence)
+        conf_text = f"Conf: {confidence_pct}%"
+        w2, h2 = draw.textsize(conf_text, font=font_small)
+        x2 = (device.width - w2) // 2
+        draw.text((x2, 44), conf_text, font=font_small, fill=255)
