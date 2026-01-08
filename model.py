@@ -32,7 +32,9 @@ def predict(image):
     interpreter.set_tensor(input_details[0]['index'], image)
     interpreter.invoke()
 
-    output = interpreter.get_tensor(output_details[0]['index'])[0][0]
-    print("Raw model output:", output)
+    score = interpreter.get_tensor(output_details[0]['index'])[0][0]
 
-    return "MALIGNANT" if output > 0.5 else "BENIGN"
+    label = "MALIGNANT" if score > 0.5 else "BENIGN"
+    confidence = score if label == "MALIGNANT" else (1 - score)
+
+    return label, confidence
