@@ -33,5 +33,6 @@ def predict(image):
     interpreter.invoke()
 
     output = interpreter.get_tensor(output_details[0]['index'])[0][0]
+    print("Raw model output:", output)
 
     return "MALIGNANT" if output > 0.5 else "BENIGN"
