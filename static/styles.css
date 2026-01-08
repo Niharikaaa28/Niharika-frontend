@@ -139,12 +139,13 @@ body {
 
 /* Action Cards */
 .action-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: 16px;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto 32px;
+    justify-content: center;
 }
 
 .card {
@@ -155,6 +156,8 @@ body {
     cursor: pointer;
     transition: var(--transition);
     box-shadow: 0 2px 8px rgba(231, 118, 86, 0.08);
+    flex: 1;
+    max-width: 280px;
     text-align: center;
 }
 
@@ -397,11 +400,30 @@ body {
     }
 
     .action-cards {
-        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 12px;
+    }
+
+    .card {
+        padding: 20px 16px;
+        max-width: 50%;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    .card p {
+        font-size: 11px;
+    }
+
+    .card-icon svg {
+        width: 32px;
+        height: 32px;
     }
 
     .welcome-section h2 {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .upload-area {
