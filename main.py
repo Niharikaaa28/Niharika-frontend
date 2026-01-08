@@ -11,6 +11,36 @@ show_status("STARTING", "Loading camera...")
 from camera import capture_image
 
 # ---------- FUNCTIONS ----------
+def easter_egg():
+    """Easter egg: shows 'code by tanish' then matrix animation"""
+    from luma.core.render import canvas
+    from display import device, font_small
+    import random
+    
+    # Show "code by tanish" in small font
+    device.clear()
+    with canvas(device) as draw:
+        text = "code by tanish"
+        w, h = draw.textsize(text, font=font_small)
+        x = (device.width - w) // 2
+        y = (device.height - h) // 2
+        draw.text((x, y), text, font=font_small, fill=255)
+    
+    time.sleep(2)
+    
+    # Matrix-style animation with 1's and 0's
+    for _ in range(15):  # 15 frames
+        device.clear()
+        with canvas(device) as draw:
+            for i in range(0, device.width, 8):
+                for j in range(0, device.height, 10):
+                    if random.random() > 0.3:
+                        digit = random.choice(['1', '0'])
+                        draw.text((i, j), digit, font=font_small, fill=255)
+        time.sleep(0.1)
+    
+    device.clear()
+
 def scan_once():
     show_centered("SCAN")
     time.sleep(1)
@@ -43,3 +73,7 @@ while True:
             time.sleep(5)        # show result long enough
             show_centered("READY")
             print("READY again. Press 'r' to rescan.")
+        elif cmd == "t":
+            easter_egg()
+            show_centered("READY")
+            print("READY. Press 'r' to scan.")
