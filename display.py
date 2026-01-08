@@ -1,6 +1,7 @@
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 from luma.core.render import canvas
+import time
 from PIL import ImageFont
 
 serial = i2c(port=1, address=0x3C)
