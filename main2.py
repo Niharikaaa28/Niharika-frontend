@@ -1,13 +1,11 @@
 from display import show_centered, show_result
-from camera import capture_image
-from model import predict
 import time
 
-# READY
+# Show READY immediately (before camera/model imports)
 show_centered("READY")
-time.sleep(2)
+time.sleep(1)
 
-# SCAN
+# Show SCAN
 show_centered("SCAN")
 time.sleep(1)
 
@@ -16,15 +14,21 @@ for i in ["3", "2", "1"]:
     show_centered(i)
     time.sleep(1)
 
+# NOW import heavy stuff
+from camera import capture_image
+from model import predict
+
 # Capture + inference
 image = capture_image()
 label, confidence = predict(image)
-
 confidence_pct = int(confidence * 100)
 
-# Show final result (2 lines)
+# Show result
 show_result(label, confidence_pct)
 
-# Keep display alive
+# Reset to READY after 5 sec
+time.sleep(5)
+show_centered("READY")
+
 while True:
     time.sleep(10)
