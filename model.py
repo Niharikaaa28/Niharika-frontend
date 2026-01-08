@@ -5,7 +5,7 @@ import cv2
 IMG_SIZE = 224
 
 print("Loading model...")
-interpreter = tflite.Interpreter(model_path="model.tflite")
+interpreter = tflite.Interpreter(model_path="mobilenet_stable.tflite")
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
