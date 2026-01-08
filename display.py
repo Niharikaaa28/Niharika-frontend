@@ -17,46 +17,51 @@ font_small = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12
 )
 
-def _fit_font(draw, text, max_width):
-    """Pick the largest font that fits the screen width"""
-    for font in (font_big, font_medium):
-        w, _ = draw.textsize(text, font=font)
-        if w <= max_width - 4:
-            return font
-    return font_small  # last-resort fallback
+def _choose_font(text):
+    """Choose font based on text length"""
+    if len(text) <= 6:
+        return font_big
+    else:
+        return font_medium
 
 def show_centered(text):
+    """Single line, auto-scaled and centered"""
     device.clear()
+    font = _choose_font(text)
+
     with canvas(device) as draw:
-        font = _fit_font(draw, text, device.width)
         w, h = draw.textsize(text, font=font)
         x = (device.width - w) // 2
         y = (device.height - h) // 2
         draw.text((x, y), text, font=font, fill=255)
 
 def show_result(label, confidence_pct):
+    """Two-line result layout"""
     device.clear()
+
     with canvas(device) as draw:
-        # Label (auto-fit)
-        font_label = _fit_font(draw, label, device.width)
+        # Label (auto font)
+        font_label = _choose_font(label)
         w1, h1 = draw.textsize(label, font=font_label)
         x1 = (device.width - w1) // 2
         draw.text((x1, 6), label, font=font_label, fill=255)
 
-        # Confidence (always small)
+        # Confidence
         conf_text = f"Conf: {confidence_pct}%"
         w2, h2 = draw.textsize(conf_text, font=font_small)
         x2 = (device.width - w2) // 2
         draw.text((x2, 44), conf_text, font=font_small, fill=255)
 
 def show_status(main_text, status_text):
+    """Status line on top + centered main text"""
     device.clear()
+    font = _choose_font(main_text)
+
     with canvas(device) as draw:
-        # Status line (small)
+        # Status (small, top)
         draw.text((0, 0), status_text, font=font_small, fill=255)
 
-        # Main text (auto-fit)
-        font = _fit_font(draw, main_text, device.width)
+        # Main text (centered lower)
         w, h = draw.textsize(main_text, font=font)
         x = (device.width - w) // 2
         y = (device.height - h) // 2 + 8
