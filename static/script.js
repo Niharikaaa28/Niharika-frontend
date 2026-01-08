@@ -137,6 +137,7 @@ function resetAll() {
     uploadSection.style.display = 'none';
     resultsSection.style.display = 'none';
     document.querySelector('.welcome-section').style.display = 'block';
+    document.querySelector('.action-cards').style.display = 'flex';
     window.scrollTo({ top: 0, behavior: 'smooth' });
     log('Reset to start');
 }
