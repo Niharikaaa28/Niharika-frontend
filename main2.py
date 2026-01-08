@@ -21,7 +21,7 @@ show_result("PROCESS")
 time.sleep(0.5)
 
 image = capture_image()
-result = "Malignant"
+result = predict(image)
 
 # Step 5: Show result
 show_result(result)
