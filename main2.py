@@ -3,22 +3,14 @@ import time
 import sys
 import select
 
-# Startup UI
+# ---------- STARTUP ----------
 show_status("STARTING", "Loading model...")
-time.sleep(0.5)
-
-# Import model (loads here)
 from model import predict
 
 show_status("STARTING", "Loading camera...")
-time.sleep(0.5)
-
-# Import camera (initializes here)
 from camera import capture_image
 
-# Ready state
-show_centered("READY")
-
+# ---------- FUNCTIONS ----------
 def scan_once():
     show_centered("SCAN")
     time.sleep(1)
@@ -36,14 +28,18 @@ def scan_once():
 
     show_result(label, confidence_pct)
 
-# First scan
-scan_once()
+# ---------- IDLE STATE ----------
+show_centered("READY")
+print("Device READY. Press 'r' + Enter to scan.")
 
-print("Press 'r' + Enter to rescan")
-
-# Terminal-controlled loop
+# ---------- MAIN LOOP ----------
 while True:
+    # wait for terminal input
     if select.select([sys.stdin], [], [], 0.1)[0]:
-        cmd = sys.stdin.readline().strip()
-        if cmd.lower() == "r":
+        cmd = sys.stdin.readline().strip().lower()
+
+        if cmd == "r":
             scan_once()
+            time.sleep(5)        # show result long enough
+            show_centered("READY")
+            print("READY again. Press 'r' to rescan.")
