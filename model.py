@@ -3,7 +3,7 @@ import tflite_runtime.interpreter as tflite
 import numpy as np
 import cv2
 
-interpreter = tflite.Interpreter(model_path="model.tflite")
+interpreter = tflite.Interpreter(model_path="mobilenet_stable.tflite")
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
