@@ -187,10 +187,11 @@ function displayResults(analysis) {
     const confidencePct = analysis.confidence.toFixed(1);
     const label = analysis.diagnosis || analysis.top_label || `Class ${analysis.top_index}`;
 
-    // Hide welcome section and action cards before showing results
+    // Hide welcome section and action cards, keep uploadSection visible
     document.querySelector('.welcome-section').style.display = 'none';
     document.querySelector('.action-cards').style.display = 'none';
-    uploadSection.style.display = 'none';
+    uploadArea.style.display = 'none';
+    previewSection.style.display = 'none';
 
     resultContent.innerHTML = `
         <div class="result-item">
@@ -203,6 +204,7 @@ function displayResults(analysis) {
         </div>
     `;
 
+    uploadSection.style.display = 'block';
     resultsSection.style.display = 'block';
     log('Displayed results', analysis.top_index, label, analysis.confidence);
 
