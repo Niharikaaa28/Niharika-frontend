@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import time
+import threading
 from display import show_web_mode
 
 # Import your existing pipeline
@@ -18,6 +19,15 @@ app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE
 
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Global timer to track display reset
+display_timer = None
+
+def reset_display_to_ready():
+    """Reset display to READY state after showing result"""
+    time.sleep(5)  # Wait 5 seconds like main.py
+    show_centered("READY")
+    print("Display reset to READY")
 
 # ---------- ROUTES ----------
 
@@ -54,6 +64,14 @@ def analyze():
 
         # Update OLED
         show_result(label.upper(), confidence_pct)
+
+        # Start timer to reset display to READY after 5 seconds
+        global display_timer
+        if display_timer and display_timer.is_alive():
+            # Cancel previous timer if still running
+            pass
+        display_timer = threading.Thread(target=reset_display_to_ready, daemon=True)
+        display_timer.start()
 
         return jsonify({
             "status": "success",

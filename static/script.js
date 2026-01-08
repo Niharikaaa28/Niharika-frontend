@@ -134,10 +134,11 @@ function resetUpload() {
 
 function resetAll() {
     resetUpload();
-    uploadSection.style.display = 'block';
+    uploadSection.style.display = 'none';
     resultsSection.style.display = 'none';
     document.querySelector('.welcome-section').style.display = 'block';
     document.querySelector('.action-cards').style.display = 'grid';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     log('Reset to start');
 }
 
@@ -199,6 +200,12 @@ function displayResults(analysis) {
 
     resultsSection.style.display = 'block';
     log('Displayed results', analysis.top_index, label, analysis.confidence);
+
+    // Auto-reset after 5 seconds (like main.py)
+    setTimeout(() => {
+        log('Auto-resetting to READY state');
+        resetAll();
+    }, 5000);
 }
 
 function showGuidelines() {
