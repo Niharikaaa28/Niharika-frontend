@@ -140,10 +140,11 @@ body {
 /* Action Cards */
 .action-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     width: 100%;
-    margin-bottom: 32px;
+    max-width: 500px;
+    margin: 0 auto 32px;
 }
 
 .card {

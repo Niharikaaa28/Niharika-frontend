@@ -30,7 +30,10 @@ menuBtn.addEventListener('click', () => {
 
 // Event Listeners
 uploadCard.addEventListener('click', () => {
-    uploadArea.scrollIntoView({ behavior: 'smooth' });
+    uploadSection.style.display = 'block';
+    setTimeout(() => {
+        uploadArea.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
     log('Upload card clicked');
 });
 
@@ -172,7 +175,7 @@ async function analyzeScan() {
 }
 
 function displayResults(analysis) {
-    const confidencePct = (analysis.confidence * 100).toFixed(1);
+    const confidencePct = analysis.confidence.toFixed(1);
     const label = analysis.diagnosis || analysis.top_label || `Class ${analysis.top_index}`;
 
     resultContent.innerHTML = `
