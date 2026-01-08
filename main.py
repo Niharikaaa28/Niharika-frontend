@@ -74,6 +74,7 @@ while True:
             show_centered("READY")
             print("READY again. Press 'r' to rescan.")
         elif cmd == "t":
+            print("Easter egg activated!")
             easter_egg()
             show_centered("READY")
             print("READY. Press 'r' to scan.")
