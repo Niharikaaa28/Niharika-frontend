@@ -2,19 +2,14 @@ import tflite_runtime.interpreter as tflite
 import numpy as np
 import cv2
 
-interpreter = None
-input_details = None
-output_details = None
-
 IMG_SIZE = 224
 
-def load_model():
-    global interpreter, input_details, output_details
-    if interpreter is None:
-        interpreter = tflite.Interpreter(model_path="mobilenet_stable.tflite")
-        interpreter.allocate_tensors()
-        input_details = interpreter.get_input_details()
-        output_details = interpreter.get_output_details()
+print("Loading model...")
+interpreter = tflite.Interpreter(model_path="model.tflite")
+interpreter.allocate_tensors()
+
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
 def preprocess(image):
     image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
@@ -24,21 +19,12 @@ def preprocess(image):
     return image
 
 def predict(image):
-    load_model()  # model loads ONLY when needed
-
     image = preprocess(image)
     interpreter.set_tensor(input_details[0]['index'], image)
     interpreter.invoke()
 
     score = interpreter.get_tensor(output_details[0]['index'])[0][0]
-
     label = "MALIGNANT" if score > 0.5 else "BENIGN"
     confidence = score if label == "MALIGNANT" else (1 - score)
 
     return label, confidence
-
-def predict_from_file(image_path):
-    image = cv2.imread(image_path)
-    if image is None:
-        raise RuntimeError("Image not found")
-    return predict(image)

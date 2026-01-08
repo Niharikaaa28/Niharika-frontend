@@ -36,3 +36,16 @@ def show_result(label, confidence_pct):
         w2, h2 = draw.textsize(conf_text, font=font_small)
         x2 = (device.width - w2) // 2
         draw.text((x2, 44), conf_text, font=font_small, fill=255)
+        
+def show_status(top_text, bottom_text):
+    """Small status text at top, big text centered"""
+    device.clear()
+    with canvas(device) as draw:
+        # Small top status
+        draw.text((0, 0), bottom_text, font=font_small, fill=255)
+
+        # Big centered text
+        w, h = draw.textsize(top_text, font=font_big)
+        x = (device.width - w) // 2
+        y = (device.height - h) // 2 + 8
+        draw.text((x, y), top_text, font=font_big, fill=255)

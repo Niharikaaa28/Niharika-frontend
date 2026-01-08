@@ -1,41 +1,49 @@
-from display import show_centered, show_result
+from display import show_centered, show_result, show_status
 import time
+import sys
+import select
 
-# Show READY immediately
-show_centered("READY")
-time.sleep(1)
+# Startup UI
+show_status("STARTING", "Loading model...")
+time.sleep(0.5)
 
-# Show SCAN
-show_centered("SCAN")
-time.sleep(1)
-
-# Countdown
-for i in ["3", "2", "1"]:
-    show_centered(i)
-    time.sleep(1)
-
-# VERY IMPORTANT: show PROCESS and yield CPU
-show_centered("PROCESS")
-time.sleep(0.3)   # allows OLED to refresh
-
-# Now import heavy modules
-from camera import capture_image
+# Import model (loads here)
 from model import predict
 
-# Heavy work happens AFTER PROCESS is visible
-image = capture_image()
-label, confidence = predict(image)
-confidence_pct = int(confidence * 100)
+show_status("STARTING", "Loading camera...")
+time.sleep(0.5)
 
-# Show result
-show_result(label, confidence_pct)
+# Import camera (initializes here)
+from camera import capture_image
 
-# Keep result visible
-time.sleep(5)
-
-# Return to READY and IDLE
+# Ready state
 show_centered("READY")
 
-# Idle loop (wait for future button press)
-while True:
+def scan_once():
+    show_centered("SCAN")
     time.sleep(1)
+
+    for i in ["3", "2", "1"]:
+        show_centered(i)
+        time.sleep(1)
+
+    show_centered("PROCESS")
+    time.sleep(0.3)
+
+    image = capture_image()
+    label, confidence = predict(image)
+    confidence_pct = int(confidence * 100)
+
+    show_result(label, confidence_pct)
+
+# First scan
+scan_once()
+
+print("Press 'r' + Enter to rescan")
+
+# Terminal-controlled loop
+while True:
+    if select.select([sys.stdin], [], [], 0.1)[0]:
+        cmd = sys.stdin.readline().strip()
+        if cmd.lower() == "r":
+            scan_once()
