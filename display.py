@@ -14,7 +14,7 @@ font_medium = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 22
 )
 font_small = ImageFont.truetype(
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 10
 )
 
 def _choose_font(text):
