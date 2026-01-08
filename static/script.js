@@ -187,6 +187,11 @@ function displayResults(analysis) {
     const confidencePct = analysis.confidence.toFixed(1);
     const label = analysis.diagnosis || analysis.top_label || `Class ${analysis.top_index}`;
 
+    // Hide welcome section and action cards before showing results
+    document.querySelector('.welcome-section').style.display = 'none';
+    document.querySelector('.action-cards').style.display = 'none';
+    uploadSection.style.display = 'none';
+
     resultContent.innerHTML = `
         <div class="result-item">
             <div class="result-label">Result</div>
