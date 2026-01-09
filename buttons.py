@@ -1,11 +1,33 @@
 import RPi.GPIO as GPIO
 import time
 
-CAPTURE_BTN = 17
+BUTTON_PIN = 17  # GPIO17
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(CAPTURE_BTN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-def wait_for_capture():
-    while GPIO.input(CAPTURE_BTN):
-        time.sleep(0.05)
+def wait_for_button_action():
+    """
+    Returns:
+    - "short" for normal press
+    - "long" for long press (>= 2 seconds)
+    """
+
+    # wait for press
+    while GPIO.input(BUTTON_PIN):
+        time.sleep(0.01)
+
+    press_time = time.time()
+
+    # wait for release
+    while not GPIO.input(BUTTON_PIN):
+        time.sleep(0.01)
+
+    duration = time.time() - press_time
+
+    time.sleep(0.05)  # debounce
+
+    if duration >= 5.0:
+        return "long"
+    else:
+        return "short"

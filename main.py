@@ -1,6 +1,7 @@
 from display import show_centered, show_result, show_status
 import time
 import sys
+from buttons import wait_for_button_action
 import select
 
 # ---------- STARTUP ----------
@@ -64,17 +65,13 @@ print("Device READY. Press 'r' + Enter to scan.")
 
 # ---------- MAIN LOOP ----------
 while True:
-    # wait for terminal input
-    if select.select([sys.stdin], [], [], 0.1)[0]:
-        cmd = sys.stdin.readline().strip().lower()
+    action = wait_for_button_action()
 
-        if cmd == "r":
-            scan_once()
-            time.sleep(5)        # show result long enough
-            show_centered("READY")
-            print("READY again. Press 'r' to rescan.")
-        elif cmd == "t":
-            print("Easter egg activated!")
-            scan_t()
-            show_centered("READY")
-            print("READY. Press 'r' to scan.")
+    if action == "short":
+        scan_once()
+        time.sleep(5)
+        show_centered("READY")
+
+    elif action == "long":
+        scan_t()
+        show_centered("READY")
