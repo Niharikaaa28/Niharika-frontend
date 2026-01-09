@@ -27,7 +27,7 @@ def wait_for_button_action():
 
     time.sleep(0.05)  # debounce
 
-    if duration >= 5.0:
+    if duration >= 4.0:
         return "long"
     else:
         return "short"
