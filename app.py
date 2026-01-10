@@ -94,7 +94,6 @@ def web_mode_listener():
     while True:
         if detect_triple_click():
             switch_to_device_mode()
-            os._exit(0)
         time.sleep(0.1)
 
 

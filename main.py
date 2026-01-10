@@ -90,7 +90,6 @@ print("Device READY. Press 'r' + Enter to scan.")
 while True:
     if detect_triple_click():
         switch_to_web_mode()
-        os._exit(0)
         
     action = wait_for_button_action()
 
