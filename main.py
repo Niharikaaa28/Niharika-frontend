@@ -73,12 +73,15 @@ print("Device READY. Press 'r' + Enter to scan.")
 
 # ---------- MAIN LOOP ----------
 while True:
-    action = wait_for_button_action()
+    # 🔥 FIRST: check double press (restart)
     if detect_double_press():
         show_centered("RESTARTING")
         time.sleep(1)
         os.system("sudo systemctl restart skin-main.service")
         exit()
+
+    # THEN handle normal button actions
+    action = wait_for_button_action()
 
     if action == "short":
         scan_once()
