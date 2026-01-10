@@ -34,7 +34,7 @@ def wait_for_button_action():
     else:
         return "short"
     
-def restart_watchdog(hold_time=4.0):
+def restart_watchdog(hold_time=2.0):
     """
     ALWAYS running watchdog.
     Restarts service if button held for hold_time seconds.
@@ -47,3 +47,25 @@ def restart_watchdog(hold_time=4.0):
                     return True
                 time.sleep(0.05)
         time.sleep(0.1)
+
+def detect_triple_click(timeout=1.8):
+    """
+    Returns True if button is clicked 3 times within timeout
+    """
+    clicks = 0
+    start = time.time()
+
+    while time.time() - start < timeout:
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            clicks += 1
+
+            # wait for release
+            while GPIO.input(BUTTON_PIN) == GPIO.LOW:
+                time.sleep(0.01)
+
+            time.sleep(0.2)  # debounce gap
+
+        if clicks >= 3:
+            return True
+
+    return False

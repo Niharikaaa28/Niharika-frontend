@@ -6,6 +6,8 @@ from display import show_web_mode
 from power_switch import monitor_power_switch
 # Import your existing pipeline
 from model import predict_from_file
+from buttons import detect_triple_click
+from mode_switch import switch_to_device_mode
 from display import show_result, show_centered
 
 app = Flask(__name__)
@@ -87,6 +89,13 @@ def analyze():
             "status": "error",
             "message": str(e)
         }), 500
+    
+def web_mode_listener():
+    while True:
+        if detect_triple_click():
+            switch_to_device_mode()
+            os._exit(0)
+        time.sleep(0.1)
 
 
 @app.route("/health", methods=["GET"])
@@ -106,6 +115,11 @@ if __name__ == "__main__":
     # Optional OLED message on web-app start
     show_web_mode(duration=4)
     show_centered("READY")
+
+    threading.Thread(
+    target=web_mode_listener,
+    daemon=True
+    ).start()
     
     threading.Thread(
         target=monitor_power_switch,

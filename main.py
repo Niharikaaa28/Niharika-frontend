@@ -7,10 +7,12 @@ import select
 import threading
 from power_switch import monitor_power_switch
 from buttons import restart_watchdog
+from buttons import detect_triple_click
+from mode_switch import switch_to_web_mode
 import time
 
 def restart_listener():
-    if restart_watchdog(hold_time=3.0):
+    if restart_watchdog(hold_time=2.0):
         show_centered("RESTARTING")
         time.sleep(1)
         os.system("sudo systemctl restart skin-main.service")
@@ -86,6 +88,10 @@ print("Device READY. Press 'r' + Enter to scan.")
 
 # ---------- MAIN LOOP ----------
 while True:
+    if detect_triple_click():
+        switch_to_web_mode()
+        os._exit(0)
+        
     action = wait_for_button_action()
 
     if action == "restart":
