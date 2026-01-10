@@ -33,3 +33,17 @@ def wait_for_button_action():
         return "restart"
     else:
         return "short"
+    
+def restart_watchdog(hold_time=4.0):
+    """
+    ALWAYS running watchdog.
+    Restarts service if button held for hold_time seconds.
+    """
+    while True:
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            start = time.time()
+            while GPIO.input(BUTTON_PIN) == GPIO.LOW:
+                if time.time() - start >= hold_time:
+                    return True
+                time.sleep(0.05)
+        time.sleep(0.1)
