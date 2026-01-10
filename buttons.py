@@ -9,11 +9,12 @@ GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 def wait_for_button_action():
     """
     Returns:
-    - "short" for normal press
-    - "long" for long press (>= 2 seconds)
+    - "short"  -> normal press
+    - "restart"   -> long press (2–4 seconds)
+    - "long"-> very long press (>= 4 seconds)
     """
 
-    # wait for press
+    # wait for button press
     while GPIO.input(BUTTON_PIN):
         time.sleep(0.01)
 
@@ -24,25 +25,11 @@ def wait_for_button_action():
         time.sleep(0.01)
 
     duration = time.time() - press_time
-
     time.sleep(0.05)  # debounce
 
-    if duration >= 4.0:
+    if duration >= 5.0:
         return "long"
+    elif duration >= 1.5:
+        return "restart"
     else:
         return "short"
-    
-def detect_long_press(hold_time=2.0):
-    """
-    Returns True if button is held LOW for hold_time seconds
-    """
-    if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-        start = time.time()
-
-        # wait while button is held
-        while GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            if time.time() - start >= hold_time:
-                return True
-            time.sleep(0.05)
-
-    return False
