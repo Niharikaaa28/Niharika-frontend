@@ -9,7 +9,8 @@ from power_switch import monitor_power_switch
 from buttons import restart_watchdog
 from buttons import detect_triple_click
 from mode_switch import switch_to_web_mode
-import time
+from buttons import get_button_intent
+from mode_switch import switch_to_web_mode
 
 def restart_listener():
     if restart_watchdog(hold_time=2.0):
@@ -88,22 +89,25 @@ print("Device READY. Press 'r' + Enter to scan.")
 
 # ---------- MAIN LOOP ----------
 while True:
-    if detect_triple_click():
-        switch_to_web_mode()
-        
-    action = wait_for_button_action()
+    
+    intent = get_button_intent()
 
-    if action == "restart":
+# ---------- MAIN LOOP ----------    intent = get_button_intent()
+
+    if intent == "restart":
         show_centered("RESTARTING")
         time.sleep(1)
         os.system("sudo systemctl restart skin-main.service")
-        exit()
+        os._exit(0)
 
-    elif action == "short":
+    elif intent == "web":
+        switch_to_web_mode()
+
+    elif intent == "scan":
         scan_once()
         time.sleep(5)
         show_centered("READY")
 
-    elif action == "long":
+    elif intent == "long":
         scan_t()
         show_centered("READY")

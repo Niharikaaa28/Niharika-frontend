@@ -69,3 +69,45 @@ def detect_triple_click(timeout=1.8):
             return True
 
     return False
+
+def get_button_intent(window=1.8):
+    """
+    Returns one of:
+    - "scan"
+    - "web"
+    - "restart"
+    - "long"
+    """
+    clicks = 0
+    press_start = None
+    start = time.time()
+
+    while time.time() - start < window:
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            press_start = time.time()
+
+            while GPIO.input(BUTTON_PIN) == GPIO.LOW:
+                time.sleep(0.01)
+
+            duration = time.time() - press_start
+
+            # Very long press → restart immediately
+            if duration >= 2.0:
+                return "restart"
+
+            # Long press
+            if duration >= 5.0:
+                return "long"
+
+            # Otherwise it's a click
+            clicks += 1
+            time.sleep(0.25)  # debounce
+
+        time.sleep(0.01)
+
+    if clicks >= 3:
+        return "web"
+    elif clicks == 1:
+        return "scan"
+
+    return None
