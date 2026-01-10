@@ -32,22 +32,17 @@ def wait_for_button_action():
     else:
         return "short"
     
-def detect_double_press(timeout=2.0):
-    presses = 0
-    start = time.time()
+def detect_long_press(hold_time=2.0):
+    """
+    Returns True if button is held LOW for hold_time seconds
+    """
+    if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+        start = time.time()
 
-    while time.time() - start < timeout:
-        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-            presses += 1
-
-            # wait until button is released
-            while GPIO.input(BUTTON_PIN) == GPIO.LOW:
-                time.sleep(0.01)
-
-            # relaxed debounce
-            time.sleep(0.3)
-
-        if presses >= 2:
-            return True
+        # wait while button is held
+        while GPIO.input(BUTTON_PIN) == GPIO.LOW:
+            if time.time() - start >= hold_time:
+                return True
+            time.sleep(0.05)
 
     return False

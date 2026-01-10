@@ -7,7 +7,8 @@ import select
 import threading
 from power_switch import monitor_power_switch
 import time
-from buttons import detect_double_press
+from buttons import detect_long_press
+
 time.sleep(5)  # 🔥 allow USB + kernel to settle
 # ---------- STARTUP ----------
 show_status("STARTING", "Loading model...")
@@ -74,7 +75,7 @@ print("Device READY. Press 'r' + Enter to scan.")
 # ---------- MAIN LOOP ----------
 while True:
     # 🔥 FIRST: check double press (restart)
-    if detect_double_press():
+    if detect_long_press(hold_time=2.0):
         show_centered("RESTARTING")
         time.sleep(1)
         os.system("sudo systemctl restart skin-main.service")

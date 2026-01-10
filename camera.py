@@ -25,12 +25,18 @@ def init_camera():
 
     print("Camera ready.")
 
-def capture_image():
+def capture_image(debug=True):
     if cap is None:
         raise RuntimeError("Camera not initialized")
 
     ret, frame = cap.read()
     if not ret:
         raise RuntimeError("Failed to capture image")
+    
+    if debug:
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        filename = f"debug_capture_{timestamp}.jpg"
+        cv2.imwrite(filename, frame)
+        print(f"[DEBUG] Image saved as {filename}")
 
     return frame
