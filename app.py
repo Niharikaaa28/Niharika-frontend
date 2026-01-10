@@ -3,7 +3,7 @@ import os
 import time
 import threading
 from display import show_web_mode
-
+from power_switch import monitor_power_switch
 # Import your existing pipeline
 from model import predict_from_file
 from display import show_result, show_centered
@@ -106,6 +106,12 @@ if __name__ == "__main__":
     # Optional OLED message on web-app start
     show_web_mode(duration=4)
     show_centered("READY")
+    
+    threading.Thread(
+        target=monitor_power_switch,
+        daemon=True
+    ).start()
+
 
     app.run(
         host="0.0.0.0",

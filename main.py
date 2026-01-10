@@ -3,6 +3,8 @@ import time
 import sys
 from buttons import wait_for_button_action
 import select
+import threading
+from power_switch import monitor_power_switch
 
 # ---------- STARTUP ----------
 show_status("STARTING", "Loading model...")
@@ -10,6 +12,8 @@ from model import predict
 
 show_status("STARTING", "Loading camera...")
 from camera import capture_image
+
+threading.Thread(target=monitor_power_switch, daemon=True).start()
 
 # ---------- FUNCTIONS ----------
 def scan_t():
