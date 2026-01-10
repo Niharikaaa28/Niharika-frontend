@@ -11,7 +11,8 @@ show_status("STARTING", "Loading model...")
 from model import predict
 
 show_status("STARTING", "Loading camera...")
-from camera import capture_image
+from camera import init_camera, capture_image
+init_camera()
 
 threading.Thread(target=monitor_power_switch, daemon=True).start()
 
