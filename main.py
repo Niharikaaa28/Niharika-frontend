@@ -10,7 +10,7 @@ from buttons import restart_watchdog
 import time
 
 def restart_listener():
-    if restart_watchdog(hold_time=4.0):
+    if restart_watchdog(hold_time=3.0):
         show_centered("RESTARTING")
         time.sleep(1)
         os.system("sudo systemctl restart skin-main.service")
