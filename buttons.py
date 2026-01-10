@@ -31,3 +31,19 @@ def wait_for_button_action():
         return "long"
     else:
         return "short"
+    
+def detect_double_press(timeout=0.8):
+    presses = 0
+    start = time.time()
+
+    while time.time() - start < timeout:
+        if not GPIO.input(BUTTON_PIN):
+            presses += 1
+            while not GPIO.input(BUTTON_PIN):
+                time.sleep(0.01)
+            time.sleep(0.15)
+
+        if presses >= 2:
+            return True
+
+    return False

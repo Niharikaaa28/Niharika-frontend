@@ -1,3 +1,4 @@
+import os
 from display import show_centered, show_result, show_status
 import time
 import sys
@@ -5,7 +6,9 @@ from buttons import wait_for_button_action
 import select
 import threading
 from power_switch import monitor_power_switch
-
+import time
+from buttons import detect_double_press
+time.sleep(5)  # 🔥 allow USB + kernel to settle
 # ---------- STARTUP ----------
 show_status("STARTING", "Loading model...")
 from model import predict
@@ -71,6 +74,11 @@ print("Device READY. Press 'r' + Enter to scan.")
 # ---------- MAIN LOOP ----------
 while True:
     action = wait_for_button_action()
+    if detect_double_press():
+        show_centered("RESTARTING")
+        time.sleep(1)
+        os.system("sudo systemctl restart skin-main.service")
+        exit()
 
     if action == "short":
         scan_once()
