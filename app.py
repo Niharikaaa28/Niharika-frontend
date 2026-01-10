@@ -89,12 +89,6 @@ def analyze():
             "status": "error",
             "message": str(e)
         }), 500
-    
-def web_mode_listener():
-    while True:
-        if detect_triple_click():
-            switch_to_device_mode()
-        time.sleep(0.1)
 
 
 @app.route("/health", methods=["GET"])
@@ -107,6 +101,14 @@ def health():
         "message": "Server is running"
     })
 
+@app.route("/switch-device", methods=["POST"])
+def switch_device():
+    threading.Thread(
+        target=switch_to_device_mode,
+        daemon=True
+    ).start()
+
+    return jsonify({"status": "switching"})
 
 # ---------- START SERVER ----------
 
@@ -115,10 +117,6 @@ if __name__ == "__main__":
     show_web_mode(duration=4)
     show_centered("READY")
 
-    threading.Thread(
-    target=web_mode_listener,
-    daemon=True
-    ).start()
     
     threading.Thread(
         target=monitor_power_switch,

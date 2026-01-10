@@ -40,9 +40,12 @@ def switch_to_device_mode():
     time.sleep(1)
 
     os.system("sudo systemctl stop skin-web.service")
-    time.sleep(1)  # allow full stop
 
-    # START device mode
+    # Give Flask + AP time to die
+    time.sleep(2)
+
+    # Start device mode
     os.system("sudo systemctl start skin-main.service")
 
+    # KILL THIS PROCESS COMPLETELY
     os._exit(0)
