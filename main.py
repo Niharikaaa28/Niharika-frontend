@@ -7,7 +7,6 @@ import select
 import threading
 from power_switch import monitor_power_switch
 import time
-from buttons import detect_long_press
 
 time.sleep(5)  # 🔥 allow USB + kernel to settle
 # ---------- STARTUP ----------
