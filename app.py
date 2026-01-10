@@ -9,8 +9,19 @@ from model import predict_from_file
 from buttons import detect_triple_click
 from mode_switch import switch_to_device_mode
 from display import show_result, show_centered
+from flask import redirect
+
+
 
 app = Flask(__name__)
+
+import atexit
+os.system("sudo /usr/local/bin/start_ap.sh")
+
+def cleanup():
+    os.system("sudo /usr/local/bin/stop_ap.sh")
+
+atexit.register(cleanup)
 
 # Config
 UPLOAD_FOLDER = "uploads"
@@ -39,6 +50,24 @@ def index():
     Home page (upload UI)
     """
     return render_template("index.html")
+
+@app.route("/generate_204")
+def android_captive():
+    return redirect("/")
+
+# iOS captive check
+@app.route("/hotspot-detect.html")
+def ios_captive():
+    return redirect("/")
+
+@app.route("/captive.apple.com")
+def apple_captive():
+    return redirect("/")
+
+# Windows captive check
+@app.route("/ncsi.txt")
+def windows_captive():
+    return redirect("/")
 
 
 @app.route("/analyze", methods=["POST"])
@@ -126,6 +155,6 @@ if __name__ == "__main__":
 
     app.run(
         host="0.0.0.0",
-        port=5001,
+        port=80,
         debug=False
     )
